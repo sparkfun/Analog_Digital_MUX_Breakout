@@ -12,25 +12,26 @@ namespace NetduinoMUX
     {
         private static OutputPort[] DigitalPins { get; set; }
 
-        //Multidimensional Arrays like the below result in an exception: Unsupported multi-dimensional array: 0x1B000001
-        private static int[,] MuxChannels = new int[16, 4] {
-            {0,0,0,0}, //channel 0
-            {1,0,0,0}, //channel 1
-            {0,1,0,0}, //channel 2
-            {1,1,0,0}, //channel 3
-            {0,0,1,0}, //channel 4
-            {1,0,1,0}, //channel 5
-            {0,1,1,0}, //channel 6
-            {1,1,1,0}, //channel 7
-            {0,0,0,1}, //channel 8
-            {1,0,0,1}, //channel 9
-            {0,1,0,1}, //channel 10
-            {1,1,0,1}, //channel 11
-            {0,0,1,1}, //channel 12
-            {1,0,1,1}, //channel 13
-            {0,1,1,1}, //channel 14
-            {1,1,1,1}  //channel 15
+        //Jagged Arrays like the below, however, are supported...
+        private static int[][] MuxChannels = new int[][] {
+            new int[] {0,0,0,0}, //channel 0
+            new int[] {1,0,0,0}, //channel 1
+            new int[] {0,1,0,0}, //channel 2
+            new int[] {1,1,0,0}, //channel 3
+            new int[] {0,0,1,0}, //channel 4
+            new int[] {1,0,1,0}, //channel 5
+            new int[] {0,1,1,0}, //channel 6
+            new int[] {1,1,1,0}, //channel 7
+            new int[] {0,0,0,1}, //channel 8
+            new int[] {1,0,0,1}, //channel 9
+            new int[] {0,1,0,1}, //channel 10
+            new int[] {1,1,0,1}, //channel 11
+            new int[] {0,0,1,1}, //channel 12
+            new int[] {1,0,1,1}, //channel 13
+            new int[] {0,1,1,1}, //channel 14
+            new int[] {1,1,1,1}  //channel 15
         };
+
 
         public CD74HC4067(OutputPort DigitalPinS0, OutputPort DigitalPinS1, OutputPort DigitalPinS2, OutputPort DigitalPinS3)
         {
@@ -39,10 +40,9 @@ namespace NetduinoMUX
 
         public void SetPort(MuxChannel eMuxChannel)
         {
-            //For use with Multidimensional Arrays...
+            //For use with Jagged Arrays...
             for (int i = 0; i < 4; i++)
-                DigitalPins[i].Write(MuxChannels[(int)eMuxChannel, i] == 0 ? false : true);//any non zero value is true...
-
+                DigitalPins[i].Write(MuxChannels[(int)eMuxChannel][i] == 0 ? false : true);//any non zero value is true...
         }
     }
 
