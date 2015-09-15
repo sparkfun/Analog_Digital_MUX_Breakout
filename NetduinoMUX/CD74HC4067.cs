@@ -8,10 +8,29 @@ using SecretLabs.NETMF.Hardware.Netduino;
 namespace NetduinoMUX
 {
     /*This is a class for using the analog / digital multiplexer (MUX) CD74HC4067*/
-    /*This is a class for using the analog / digital multiplexer (MUX) CD74HC4067*/
     public class CD74HC4067
     {
         private static OutputPort[] DigitalPins { get; set; }
+
+        //Multidimensional Arrays like the below result in an exception: Unsupported multi-dimensional array: 0x1B000001
+        private static int[,] MuxChannels = new int[16, 4] {
+            {0,0,0,0}, //channel 0
+            {1,0,0,0}, //channel 1
+            {0,1,0,0}, //channel 2
+            {1,1,0,0}, //channel 3
+            {0,0,1,0}, //channel 4
+            {1,0,1,0}, //channel 5
+            {0,1,1,0}, //channel 6
+            {1,1,1,0}, //channel 7
+            {0,0,0,1}, //channel 8
+            {1,0,0,1}, //channel 9
+            {0,1,0,1}, //channel 10
+            {1,1,0,1}, //channel 11
+            {0,0,1,1}, //channel 12
+            {1,0,1,1}, //channel 13
+            {0,1,1,1}, //channel 14
+            {1,1,1,1}  //channel 15
+        };
 
         public CD74HC4067(OutputPort DigitalPinS0, OutputPort DigitalPinS1, OutputPort DigitalPinS2, OutputPort DigitalPinS3)
         {
@@ -20,74 +39,9 @@ namespace NetduinoMUX
 
         public void SetPort(MuxChannel eMuxChannel)
         {
-
-            switch (eMuxChannel)
-            {
-                case MuxChannel.C0:
-                    for (int intCounter = 0; intCounter < 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C0[intCounter] == '0' ? false : true); //any non zero value is true...
-                    break;
-                case MuxChannel.C1:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C1[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C2:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C2[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C3:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C3[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C4:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C4[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C5:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C5[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C6:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C6[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C7:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C7[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C8:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C8[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C9:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C9[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C10:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C10[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C11:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C11[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C12:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C12[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C13:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C13[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C14:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C14[intCounter] == '0' ? false : true);
-                    break;
-                case MuxChannel.C15:
-                    for (int intCounter = 0; intCounter <= 4; intCounter++)
-                        DigitalPins[intCounter].Write(MUXPorts.C15[intCounter] == '0' ? false : true);
-                    break;
-            }
+            //For use with Multidimensional Arrays...
+            for (int i = 0; i < 4; i++)
+                DigitalPins[i].Write(MuxChannels[(int)eMuxChannel, i] == 0 ? false : true);//any non zero value is true...
 
         }
     }
@@ -110,26 +64,6 @@ namespace NetduinoMUX
         C13 = 13,
         C14 = 14,
         C15 = 15
-    }
-
-    static class MUXPorts
-    {
-        public static string C0 { get { return "0000"; } }
-        public static string C1 { get { return "1000"; } }
-        public static string C2 { get { return "0100"; } }
-        public static string C3 { get { return "1100"; } }
-        public static string C4 { get { return "0010"; } }
-        public static string C5 { get { return "1010"; } }
-        public static string C6 { get { return "0110"; } }
-        public static string C7 { get { return "1110"; } }
-        public static string C8 { get { return "0001"; } }
-        public static string C9 { get { return "1001"; } }
-        public static string C10 { get { return "0101"; } }
-        public static string C11 { get { return "1101"; } }
-        public static string C12 { get { return "0011"; } }
-        public static string C13 { get { return "1011"; } }
-        public static string C14 { get { return "0111"; } }
-        public static string C15 { get { return "1111"; } }
     }
 
 }
