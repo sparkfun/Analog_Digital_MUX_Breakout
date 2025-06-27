@@ -1,7 +1,7 @@
 Analog/Digital MUX Breakout
 ===========================
 
-[![Analog/Digital MUX Breakout](https://dlnmh9ip6v2uc.cloudfront.net//images/products/9/0/5/6/09056-01.jpg)  
+[![Analog/Digital MUX Breakout](https://cdn.sparkfun.com/assets/parts/2/4/2/0/09056-01.jpg)  
 *Analog/Digital MUX Breakout (BOB-09056)*](https://www.sparkfun.com/products/9056)
 
 This a breakout board for the 16-channel Analog/Digital Multiplexer/Demultiplier CD74HC4067. 
